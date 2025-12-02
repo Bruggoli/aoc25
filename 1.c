@@ -3,52 +3,45 @@
 #include <string.h>
 
 int main() {
-    FILE *fptr;
-    fptr = fopen("input.txt", "r");
-    if (fptr == NULL){
-        printf("File not found or is empty");
-        return 1;
+  FILE *fptr;
+  fptr = fopen("input.txt", "r");
+  if (fptr == NULL){
+    printf("File not found or is empty");
+    return 1;
+  }
+
+  // Dial starts at 50
+  int dial = 50;
+  int pwd = 0;
+
+  char buffer[10];
+  while(fgets(buffer, sizeof(buffer), fptr) != NULL) {
+    char rorl = buffer[0];
+
+    // Parse number
+    // Start from the second index, since the first one is always the 
+    // direction
+    char* numPointer = &buffer[1];
+    long int num = strtol(numPointer, NULL, 10);
+
+    if (rorl != 'L' && rorl != 'R') {
+      printf("error reading first character: %c\n", rorl);
+      return 1;
     }
 
-    int dial = 50;
-    int pwd = 0;
-
-    char buffer[10];
-    while(fgets(buffer, sizeof(buffer), fptr) != NULL) {
-        int len = 1;
-        // Dial starts at 50
-
-        char rorl = buffer[0];
-
-        // get length of number
-        for (len; buffer[len] != '\n'; len++);
-        // parse number
-        char* numPointer = &buffer[1];
-        long int num = strtol(numPointer, NULL, 10);
-
-        printf("num: %d", num);
-        printf("\t\tdirection: %c", rorl);
-        printf("\t\tdial: %d", dial);
-        printf("\t\tbuffer: %s", buffer);
-        
-        if (rorl != 'L' && rorl != 'R') {
-            printf("error reading first character: %c", rorl);
-            return 1;
-        }
-
-        if (rorl == 'L') {
-            dial = (dial - num) % 100;
-        } else {
-            dial = (dial + num) % 100;
-        }
-
-        if (dial == 0)
-            pwd++;
+    if (rorl == 'L') {
+      dial = (dial - num) % 100;
+    } else {
+      dial = (dial + num) % 100;
     }
 
-    printf("password: %d", pwd);
+    if (dial == 0)
+      pwd++;
+  }
 
-    fclose(fptr);
+  printf("password: %d", pwd);
 
-    return 0;
+  fclose(fptr);
+
+  return 0;
 }

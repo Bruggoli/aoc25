@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include "../readFile.h"
 
 #define ASSERT(x) if (!(x)) { printf("FAILED TEST: %s\n", x); }
 
@@ -55,11 +56,7 @@ int main() {
   printf("looking for file...\n");
 
   FILE *fptr;
-  fptr = fopen("input.txt", "r");
-  if (fptr == NULL){
-    printf("File not found or is empty\n");
-    return 1;
-  }
+  readFile(&fptr, "input.txt");
 
   char buffer[1000];
 

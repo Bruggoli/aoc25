@@ -4,14 +4,15 @@
 
 typedef struct {
     int bank[100];
-    int *first,
-        *second;
+    int first,
+        second;
     int length;
 } Battery;
 
 int findBestCombo(Battery *b) {
 
-    int index;
+    // needed to find the starting point after finding the largest number
+    int index = 0;
 
     // find the index of the largest number
     // the first instance of the largest number cannot be at the last position in the array
@@ -28,7 +29,8 @@ int findBestCombo(Battery *b) {
     }
         
     // concatenate and return the numbers
-    int concat[2];
+    // again, only stores 2 values, but needs a 3rd for \0 at the end
+    char concat[3];
     sprintf(concat, "%d%d", b->first, b->second);
 
     return strtol(concat, NULL, 10);
@@ -68,5 +70,5 @@ int main() {
         free(b);
 
     }
-    printf("\t\tSum: %d", sum);
+    printf("Sum: %d", sum);
 }

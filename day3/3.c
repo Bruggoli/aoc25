@@ -4,8 +4,8 @@
 
 typedef struct {
     int bank[100];
-    int *first,
-        *second;
+    int first,
+        second;
     int length;
 } Battery;
 
@@ -28,7 +28,7 @@ int findBestCombo(Battery *b) {
     }
         
     // concatenate and return the numbers
-    int concat[2];
+    char concat[3];
     sprintf(concat, "%d%d", b->first, b->second);
 
     return strtol(concat, NULL, 10);

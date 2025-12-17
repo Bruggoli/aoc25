@@ -1,4 +1,5 @@
 #include "../readFile.h"
+#include <stdio.h>
 #include <string.h>
 
 #define ARRLEN 136
@@ -13,30 +14,27 @@ int checkAdjacent(enum contents shelf[ARRLEN][ARRLEN], int col, int row) {
   int adjacent = 0;
 
   for (int i = col - 1; i <= col + 1; i++) {
-
-
-    // if the number of adjacent rolls is greater 
-    // than the max, we break out because its not reachable
-
+    if (i < 0 || i >= ARRLEN - 1)
+      continue;
     
     for (int j = row - 1; j <= row + 1; j++) {
       if (j < 0 || j >= ARRLEN - 1)
         continue;
-      if (i < 0 || i >= ARRLEN - 1)
-        continue;
-      printf("%c", shelf[i][j]);
+
+      printf("%c", (i == col && j == row) ? 'x' : shelf[i][j]);
       if (shelf[i][j] == TOILET_ROLL && !(i == col && j == row)) {
         adjacent++;
       }
     }  
 
     printf("\n");
-  }    
+  }
+
   if (adjacent > MAX) {
     printf("Too many rolls nearby: %d\n", adjacent);
     return 0; 
   }
-  printf("\n");
+
   return 1;
 }
 
@@ -72,7 +70,6 @@ int main() {
   int column = 0,
       row    = 0;
  
-  printf("Looking through file and parsing\n");
   while (fgets(buffer, sizeof(buffer), fptr) != NULL){
     
     // hacky way to ignore empty lines
@@ -88,6 +85,8 @@ int main() {
     row = 0;
     column++;
   }
+
+  fclose(fptr);
 
   printf("Total rolls that can be fetched: %d\n", canBeForklifted(shelf));
 }
